@@ -1,0 +1,31 @@
+
+## Prerequisites
+
+```{r}
+library(magrittr)
+options(scipen = 999)
+```
+
+## Targets
+
+```{r}
+# Load globals
+targets::tar_load_globals()
+
+# Run the pipeline
+targets::tar_make()
+
+# Load the results
+targets::tar_prune() # Remove old targets
+targets::tar_load_everything()
+
+# Clean up
+base::gc() %>% base::invisible()
+
+# Debug
+targets::tar_meta(fields = c(error, time), complete_only = TRUE) %>% 
+  dplyr::arrange(time) %>% 
+  dplyr::pull(error) 
+```
+
+
